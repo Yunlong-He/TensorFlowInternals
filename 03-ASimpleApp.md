@@ -35,7 +35,7 @@ $ python test.py
 会话（Session）：可以用来执行一个计算流图，并得到指定的变量结果
 
 在没有显示声明计算流图的时候，tensorflow会缺省创建一个
-···python
+```python
 a = tf.Variable(2)
 ```
 这一句会创建一个Tensor并加入到缺省的Graph里
@@ -47,7 +47,7 @@ def ops.convert_to_tensor：
 #  This function converts Python objects of various types to `Tensor`
 #  objects. It accepts `Tensor` objects, numpy arrays, Python lists,
 #  and Python scalars. For example:
-```python
+```
 这个函数非常有用，里面注册了tensorflow支持的各种可以转换的object类型及其相应的转换函数，比如对于常量2来说，这是一个python object，其对应的转换函数是_constant_tensor_conversion_function（python/ops/constant_op.py:175）
 
 注意：在查看constant_op.py文件的时候，有这么几行用来注册转换类型及函数：
@@ -102,7 +102,7 @@ class OpDefLibrary(object):
 两个需要注意的地方：一个是op是有参数的，要建立依赖关系；另一个是前面说过运行时可能有很多个graph，这个graph怎么选呢？很直接的想法就是看看它依赖哪个参数，参数在哪个graph里，就把它加到哪个graph里，如果依赖有两个参数，分别来自不同的graph，那我们应该把两个graph合并一下
 
 看一下实现：
-```sh
+```python
     op_info = self._ops.get(op_type_name, None)
 
     g = ops._get_graph_from_inputs(_Flatten(keywords.values()))
@@ -120,7 +120,7 @@ class OpDefLibrary(object):
 
 再回过头来看刚才的代码：
 _InitOpDefLibrary的作用是把相关的op注册到op library里，那这个操作是什么时候被调用的呢？通过pdb设置断点可以看到是初始化tensorflow这个模块的时候就调用了。
-···gdb
+```gdb
 (Pdb) b /usr/local/lib/python2.7/dist-packages/tensorflow/python/ops/gen_math_ops.py:3593
 Breakpoint 1 at /usr/local/lib/python2.7/dist-packages/tensorflow/python/ops/gen_math_ops.py:3593
 (Pdb) c
