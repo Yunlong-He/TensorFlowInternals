@@ -1,5 +1,5 @@
 
-## 在Ubuntu14.04上编译安装TensorFlow
+## 编译安装TensorFlow
 
 ### 准备编译环境
 编译过程参考
@@ -10,17 +10,20 @@ https://github.com/tensorflow/tensorflow/blob/master/tensorflow/g3doc/get_starte
 git clone --recurse-submodules https://github.com/tensorflow/tensorflow
 ```
 
-刚下载下来的时候，代码处于master的最新版本上，一般来说这不是稳定版本，所以建议选择合适的branch或者tag来做测试。我刚开始测试的时候0.8还没有release，所以先用0.7.1的版本。
+刚下载下来的时候，代码处于master的最新版本上，master版本不一定是稳定版本，所以建议选择合适的branch或者tag来做测试。早期开始测试的时候0.8还没有release，所以用了0.7.1的版本，但是现在1.0已经release了，可以用1.0的版本来编译。
 ```sh
 $ git checkout -b branch-v0.7.1 v0.7.1
 ```
 
 编译Tensorflow需要的开发环境包括python，pip, numpy，比较特殊的是Tensorflow还依赖bazel和swig，bazel是google开源的编译框架，据说google内部很多项目都用bazel编译。建议大家除了安装bazel，最好也学习一下bazel的工作原理，这样才能比较容易的看懂tensorflow的源代码结构。至于swig，这是一个工具，可以把c++的库封装成其他语言的接口，比如python, java等。当然tensorflow里只提供了python的接口，如果我们需要在spark里使用tensorflow，或许可以通过swig来生成java接口。
 ```sh
-$ sudo apt-get install python-numpy swig python-dev
+$ apt-get install python-numpy swig python-dev
+
+for centos, you can use yum install
+$ yum install python-numpy swig python-dev
 ```
 
-bazel可以通过访问http://bazel.io/来了解怎么安装，上面还有比较详细的教程。
+bazel可以通过访问http://bazel.io/来了解怎么安装，上面还有比较详细的教程。 一个比较简便的方法是下载self-contained的源代码进行编译
 
 如果你的机器上有nvidia的GPU，那么建议你安装cuda的toolkit和cudnn，网上这方面的教程比较多，这里暂时不做介绍。
 
