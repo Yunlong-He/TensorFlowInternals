@@ -11,6 +11,19 @@ bazel是TensorFlow的构建工具，相当于cmake或者maven，据说google内�
 
 事实上，bazel提供了重新设定cache路径的方法，就是传递参数--output_base，但是这样也不是很灵活，比如我有两个tensorflow目录，源代码有些不同，想共用一个cache目录存放下载的文件，可以么？
 
+**bazel的设计目标**
+Requirements for an output directory layout:
+
+1. 支持多用户，不会相互冲突
+2. 支持同时编译多个workspace
+3. 对于同一个workspace，支持编译多个目标配置
+4. 不和其他工具冲突
+5. 访问简单
+6. 易于清理，即使是选择性的清理其中一部分
+7. 无二义性，即使遇到用户使用符号链接等情况
+8. 每个用户的编译状态都被放置到同一个目录下
+
+
 **bazel的目录结构**
 ```sh
 <workspace-name>/                         <== The workspace directory
@@ -74,3 +87,10 @@ bazel是TensorFlow的构建工具，相当于cmake或者maven，据说google内�
                                               of the build (ex: Protocol Compiler)
         <packages>/                       <== Packages referenced in the build appear as if under a regular workspace
 ```
+
+**bazel的常用命令**
+
+bazel clean
+
+**其他**
+如果有时间，我会创建几个例子来说明如何使用bazel
