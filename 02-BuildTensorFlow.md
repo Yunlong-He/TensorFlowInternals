@@ -73,3 +73,15 @@ Test error: 0.9%
 ```
 
 这样就表示TensorFlow可以正常使用了。
+
+
+**FAQ**
+1. error: invalid command 'bdist_wheel'
+   可以通过升级setuptools来解决。参考http://www.cnblogs.com/BugQiang/archive/2015/08/22/4732991.html
+   ```sh
+   pip install wheel
+   pip install setuptools --upgrade
+   ```
+2. Python.h not found
+   这个比较特殊，我的机器上单独安装了一个python-devel的库，但是不是使用系统命令安装的，编译时无法找到。这个时候单独安装Python-devel就好了。
+   
