@@ -76,12 +76,25 @@ Test error: 0.9%
 
 
 **FAQ**
+
 1. error: invalid command 'bdist_wheel'
+   
    可以通过升级setuptools来解决。参考http://www.cnblogs.com/BugQiang/archive/2015/08/22/4732991.html
-   ```sh
+   
+```sh
    pip install wheel
    pip install setuptools --upgrade
-   ```
+```
+
 2. Python.h not found
-   这个比较特殊，我的机器上单独安装了一个python-devel的库，但是不是使用系统命令安装的，编译时无法找到。这个时候单独安装Python-devel就好了。
+
+    这个比较特殊，我的机器上单独安装了一个python-devel的库，但是不是使用系统命令安装的，编译时无法找到。这个时候单独安装Python-devel就好了。
    
+**关于bazel**
+
+bazel是TensorFlow的构建工具，相当于cmake或者maven，据说google内部的项目都用bazel来构建。主要目的是用简单的方法解决项目之间的依赖关系。
+
+类似于maven会把下载下来的包存放在在$HOME下的.m2目录里，bazel会把下载的文件放在$HOME/.cache/bazel下，但是有个不同，不同的编译会在下面产生不同的目录。参考https://bazel.build/versions/master/docs/output_directories.html。
+
+也许这种放置文件的方式可以保证独立性，但是后果也很明显，比如把tensorflow源代码移动到另外一个地方重新编译，原来的文件就得重新下载一遍，因为要放到不同的目录下，我还不清楚这个目录的名称是怎么产生的，但是不管怎么样，动辄重新下载十几G的文件，对我这种国内用户来说代价太大了。
+
