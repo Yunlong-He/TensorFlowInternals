@@ -89,15 +89,3 @@ Test error: 0.9%
 2. Python.h not found
 
     这个比较特殊，我的机器上单独安装了一个python-devel的库，但是不是使用系统命令安装的，编译时无法找到。这个时候单独安装Python-devel就好了。
-   
-**关于bazel**
-
-bazel是TensorFlow的构建工具，相当于cmake或者maven，据说google内部的项目都用bazel来构建。主要目的是用简单的方法解决项目之间的依赖关系。
-
-类似于maven会把下载下来的包存放在在$HOME下的.m2目录里，bazel会把下载的文件放在$HOME/.cache/bazel下，但是有个不同，不同的编译会在下面产生不同的目录。参考https://bazel.build/versions/master/docs/output_directories.html。 
-
-目录的结构是：$HOME/.cache/bazel/_bazel_$USER/md5($WORKSPACE_PATH)。由此可见，workspace的path决定了cache的路径。
-
-也许这种放置文件的方式可以保证独立性，但是后果也很明显，比如把tensorflow源代码移动到另外一个地方重新编译，原来的文件就得重新下载一遍，因为要放到不同的目录下，动辄重新下载十几G的文件，对我这种国内用户来说代价太大了。
-
-事实上，bazel提供了重新设定cache路径的方法，就是传递参数--output_base，但是这样也不是很灵活，比如我有两个tensorflow目录，源代码有些不同，想共用一个cache目录存放下载的文件，可以么？
