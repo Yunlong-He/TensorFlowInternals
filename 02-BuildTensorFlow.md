@@ -36,6 +36,10 @@ $ ./configure
 
 开始编译tensorflow，生成pip package
 ```sh
+$ bazel build -c opt --config=cuda //tensorflow/tools/pip_package:build_pip_package
+```
+If you want to build tensorflow with debug information, use dbg configuration in command line.
+```sh
 $ bazel build -c dbg --config=cuda //tensorflow/tools/pip_package:build_pip_package
 ```
 需要注意的是：
@@ -97,3 +101,10 @@ Test error: 0.9%
 ```sh
     bazel-bin/tensorflow/tools/pip_package/build_pip_package  --spawn_strategy=sandboxed /tmp/tf
 ```
+
+4. ERROR: no such target '@local_config_cuda//crosstool:toolchain': target 'toolchain' not declared in package 'crosstool' defined by ......
+
+   
+
+
+
