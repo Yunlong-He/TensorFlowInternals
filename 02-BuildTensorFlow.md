@@ -36,6 +36,10 @@ $ ./configure
 
 开始编译tensorflow，生成pip package
 ```sh
+$ bazel build -c opt --config=cuda //tensorflow/tools/pip_package:build_pip_package
+```
+If you want to build tensorflow with debug information, use dbg configuration in command line.
+```sh
 $ bazel build -c dbg --config=cuda //tensorflow/tools/pip_package:build_pip_package
 ```
 需要注意的是：
@@ -89,3 +93,18 @@ Test error: 0.9%
 2. Python.h not found
 
     这个比较特殊，我的机器上单独安装了一个python-devel的库，但是不是使用系统命令安装的，编译时无法找到。这个时候单独安装Python-devel就好了。
+
+3. zipfile.LargeZipFile: Filesize would require ZIP64 extensions
+    
+    There is an issue reported here https://github.com/tensorflow/tensorflow/issues/5538, however, it's not tensorflow issue, one workround is to use --spawn_strategy=sandboxed
+    
+```sh
+    bazel-bin/tensorflow/tools/pip_package/build_pip_package  --spawn_strategy=sandboxed /tmp/tf
+```
+
+4. ERROR: no such target '@local_config_cuda//crosstool:toolchain': target 'toolchain' not declared in package 'crosstool' defined by ......
+
+   
+
+
+
