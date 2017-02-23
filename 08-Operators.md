@@ -1,5 +1,6 @@
 
 这是一个自定义op的例子，
+```sh
 REGISTER_OP("Fact")
     .Output("fact: string")
     .Doc(R"doc(
@@ -22,24 +23,34 @@ class FactOp : public OpKernel {
 };
 
 REGISTER_KERNEL_BUILDER(Name("Fact").Device(DEVICE_CPU), FactOp);
+`````
 
 运行的时候可以这样调用：
+```sh
 a = tf.user_ops._fact()
 sess = tf.Session()
 b = sess.run(a)
 print(b)
+```
 
-输出结果：b"Chuck Norris is Jeff Dean's 20% project."
+输出结果：
+```sh
+b"Chuck Norris is Jeff Dean's 20% project."
+```
 
 代码实现里最重要的两条是
+```sh
     auto output = output_tensor->template scalar<string>();
     output() = "0! == 1";
+```
 
 output的类型是TTypes<T>::Scalar，该定义是这样的：
+```sh`
 typedef Eigen::TensorMap<
       Eigen::TensorFixedSize<T, Eigen::Sizes<>, Eigen::RowMajor, IndexType>,
       Eigen::Aligned> Scalar;
-
+```
+`
 关于Eigen::TensorMap
 
 TensorMap是Eigen包unsupported中的一个文件，只有特定版本的eigen才有，比如这里http://eigen.tuxfamily.org/dox-devel/unsupported/group__CXX11__Tensor__Module.html, 或者用谷歌tensorflow里的版本
@@ -120,7 +131,7 @@ OpDefBuilderReceiver::OpDefBuilderReceiver(const OpDefBuilder& builder) {
 
 
 下面是一个Add操作的例子，支持不同类型的输入，以及不同的device，有点复杂
-
+```sh`
 namespace tensorflow {
 
 typedef Eigen::ThreadPoolDevice CPUDevice;
@@ -248,3 +259,4 @@ REGISTER_KERNEL_BUILDER(Name("AddN")
 #undef REGISTER_ADDN
 
 }  // namespace tensorflow
+````
